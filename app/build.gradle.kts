@@ -2,6 +2,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+
+    //Kotlin Seralization for Navigation3
+    kotlin("plugin.serialization")
+
 }
 
 android {
@@ -42,6 +46,15 @@ android {
 }
 
 dependencies {
+
+    //Navigation3
+    val navigation3Version = "1.0.0"
+    implementation("androidx.navigation3:navigation3-runtime:$navigation3Version")
+    implementation("androidx.navigation3:navigation3-ui:$navigation3Version")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.9.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.4")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-navigation3:2.10.0")
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
