@@ -58,16 +58,32 @@ fun AppNavigation(uri: Uri?) {
 
 
 private fun parseDeepLink(uri: Uri?): NavKey? {
-    return uri?.let {
-        val request = DeepLinkRequest(it)
 
-        val match = deepLinkPatterns.firstNotNullOfOrNull { pattern ->
-            val tempDeepLinkMatcher = DeepLinkMatcher(request, pattern)
-            tempDeepLinkMatcher.match()
+    var  outputKey: NavKey? = null
+
+    try {
+
+        uri?.let {
+            val request = DeepLinkRequest(it)
+
+            val match = deepLinkPatterns.firstNotNullOfOrNull { pattern ->
+                val tempDeepLinkMatcher = DeepLinkMatcher(request, pattern)
+                tempDeepLinkMatcher.match()
+            }
+
+            outputKey =  match?.let {
+                KeyDecoder(match.args).decodeSerializableValue(match.serializer)
+            }
         }
 
-        match?.let {
-            KeyDecoder(match.args).decodeSerializableValue(match.serializer)
-        } as NavKey?
+    } catch(e: Exception){
+
+        e.printStackTrace()
+
+        outputKey =  null
+
     }
+
+    return outputKey
+
 }
